@@ -54,7 +54,7 @@ jobs:
               [Desktop Entry]
               Name=Zotero
               Exec=Zotero_linux-x86_64/zotero
-              Icon=Zotero.png
+              Icon=Zotero
               Type=Application
               Categories=Utility
               EOF
