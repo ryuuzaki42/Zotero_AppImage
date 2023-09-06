@@ -1,0 +1,101 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - "**"
+    tags:
+      - "!**"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+          - uses: actions/checkout@main
+          - name: Install fuse and libfuse2
+            run: |
+              sudo apt install fuse libfuse2
+
+          - name: Get appimagetool
+            run: |
+              set -x
+              cd ..
+              wget https://github.com/AppImage/AppImageKit/releases/download/13/appimagetool-x86_64.AppImage
+              chmod +x appimagetool-x86_64.AppImage
+              pwd
+              ls -lah
+
+          - name: Get Zotero
+            run: |
+              set -x
+              version=$(grep -o "Zotero:.*" README.md | cut -d ' ' -f2)
+              echo "Zotero version: $version"
+
+              wget "https://download.zotero.org/client/release/$version/Zotero-${version}_linux-x86_64.tar.bz2"
+              tar -xvf "Zotero-${version}_linux-x86_64.tar.bz2"
+
+          - name: Make Appimage
+            run: |
+              set -x
+              version=$(grep -o "Zotero:.*" README.md | cut -d ' ' -f2)
+              echo "Zotero version: $version"
+
+              cat > AppRun << 'EOF'
+              #!/bin/bash
+              HERE="$(dirname "$(readlink -f "${0}")")"
+              EXEC="${HERE}/Zotero_linux-x86_64/zotero"
+              exec "${EXEC}"
+              EOF
+
+              chmod +x AppRun
+              cat AppRun
+
+              cat > Zotero.desktop << 'EOF'
+              [Desktop Entry]
+              Name=Zotero
+              Exec=Zotero_linux-x86_64/zotero
+              Icon=Zotero_linux-x86_64/zotero
+              Type=Application
+              Categories=Utility
+              EOF
+
+              chmod +x Zotero.desktop
+              sed -i "s/Name=Zotero/Name=Zotero-$version/" Zotero.desktop
+              cat Zotero.desktop
+
+              ln -s Zotero_linux-x86_64/chrome/icons/default/default256.png Zotero.png
+              ls -lah
+
+              rm -v "Zotero-${version}_linux-x86_64.tar.bz2"
+              rm -vr .git/ .github/
+              ls -lah
+
+              cd ../
+              ls -lah
+              ARCH=x86_64 ./appimagetool-x86_64.AppImage Zotero_AppImage/
+
+              fileName=$(ls Zotero*.AppImage)
+              echo "fileName: $fileName"
+              mv "$fileName" "Zotero-$version-x86_64-1_JB.AppImage"
+              md5sum "Zotero-$version-x86_64-1_JB.AppImage" > "Zotero-$version-x86_64-1_JB.AppImage.md5"
+              ls -lah
+
+              mv Zotero*.AppImage Zotero*.AppImage.md5 Zotero_AppImage/
+              ls -lah Zotero_AppImage/
+
+          # Build - Error: Resource not accessible by integration
+          # Change Settings -> Actions -> General -> Workflow Permissions to allow read and write:
+          # https://github.com/actions/first-interaction/issues/10#issuecomment-1506118886
+
+          # https://github.com/marketplace/actions/upload-to-github-release
+          - uses: xresloader/upload-to-github-release@main
+            env:
+              GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            with:
+              file: "Zotero*.AppImage; Zotero*.md5"
+              #delete_file: "random-name-*.txt;random-*.txt"
+              release_id: ${{ steps.create_release.outputs.id }}
+              #overwrite: true
+              verbose: true
+              #tags: true
+              draft: false
