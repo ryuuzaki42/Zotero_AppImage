@@ -1,7 +1,7 @@
 # Zotero_AppImage
 
 ## Repository: https://github.com/ryuuzaki42/Zotero_AppImage
-     Zotero: 6.0.28
+     Zotero: 6.0.30
 
 https://www.zotero.org/
 
