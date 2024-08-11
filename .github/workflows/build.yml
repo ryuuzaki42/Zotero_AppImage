@@ -66,7 +66,7 @@ jobs:
               sed -i "s/Name=Zotero/Name=Zotero-$version/" Zotero.desktop
               cat Zotero.desktop
 
-              ln -s Zotero_linux-x86_64/chrome/icons/default/default256.png Zotero.png
+              ln -s Zotero_linux-x86_64/icons/icon128.png Zotero.png
               ls -lah
 
               rm -v "Zotero-${version}_linux-x86_64.tar.bz2"
@@ -75,7 +75,7 @@ jobs:
 
               cd ../
               ls -lah
-              ARCH=x86_64 ./appimagetool-x86_64.AppImage Zotero_AppImage/
+              ARCH=x86_64 VERSION="${version}-1_JB" ./appimagetool-x86_64.AppImage Zotero_AppImage/
 
               fileName=$(ls Zotero*.AppImage)
               echo "fileName: $fileName"
