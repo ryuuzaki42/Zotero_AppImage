@@ -79,11 +79,12 @@ jobs:
 
               fileName=$(ls Zotero*.AppImage)
               echo "fileName: $fileName"
-              mv "$fileName" "Zotero-$version-x86_64-1_JB.AppImage"
-              md5sum "Zotero-$version-x86_64-1_JB.AppImage" > "Zotero-$version-x86_64-1_JB.AppImage.md5"
-              ls -lah
+              #mv "$fileName" "Zotero-$version-x86_64-1_JB.AppImage"
+              #md5sum "Zotero-$version-x86_64-1_JB.AppImage" > "Zotero-$version-x86_64-1_JB.AppImage.md5"
+              md5sum "$fileName" > "${fileName}.md5"
+              pwd; ls -lah
 
-              mv Zotero*.AppImage Zotero*.AppImage.md5 Zotero_AppImage/
+              mv Zotero*.AppImage Zotero*.zsync Zotero*.md5 Zotero_AppImage/
               ls -lah Zotero_AppImage/
 
           # Build - Error: Resource not accessible by integration
@@ -95,7 +96,7 @@ jobs:
             env:
               GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
             with:
-              file: "Zotero*.AppImage; Zotero*.md5"
+              file: "Zotero*.AppImage; Zotero*.zsync; Zotero*.md5"
               #delete_file: "random-name-*.txt;random-*.txt"
               release_id: ${{ steps.create_release.outputs.id }}
               #overwrite: true
