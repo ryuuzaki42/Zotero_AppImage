@@ -20,7 +20,10 @@ jobs:
             run: |
               set -x
               cd ..
-              wget https://github.com/AppImage/AppImageKit/releases/download/13/appimagetool-x86_64.AppImage
+              #wget -q https://github.com/AppImage/AppImageKit/releases/download/13/appimagetool-x86_64.AppImage
+              #wget -q https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage
+              wget -q https://github.com/probonopd/go-appimage/releases/download/continuous/appimagetool-840-x86_64.AppImage -O appimagetool-x86_64.AppImage
+
               chmod +x appimagetool-x86_64.AppImage
               pwd
               ls -lah
