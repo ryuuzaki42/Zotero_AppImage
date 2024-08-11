@@ -63,7 +63,7 @@ jobs:
               EOF
 
               chmod +x Zotero.desktop
-              sed -i "s/Name=Zotero/Name=Zotero-$version/" Zotero.desktop
+              #sed -i "s/Name=Zotero/Name=Zotero-$version/" Zotero.desktop
               cat Zotero.desktop
 
               ln -s Zotero_linux-x86_64/icons/icon128.png Zotero.png
