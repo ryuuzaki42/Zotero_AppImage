@@ -7,9 +7,12 @@
 
 https://www.zotero.org/
 
-https://www.zotero.org/support/changelog
-
 https://github.com/zotero/zotero/tags
+
+---
+Version History - What's new
+
+https://www.zotero.org/support/changelog
 
 ---
 
