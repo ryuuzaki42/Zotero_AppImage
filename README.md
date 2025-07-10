@@ -1,7 +1,7 @@
 # Zotero_AppImage
 
 ## Repository: https://github.com/ryuuzaki42/Zotero_AppImage
-     Zotero: 7.0.19
+     Zotero: 7.0.20
 
 ---
 https://www.zotero.org/
