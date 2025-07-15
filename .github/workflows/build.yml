@@ -37,6 +37,9 @@ jobs:
               chmod +x ./uruntime
               pwd; ls -lah
 
+          - name: Install llvm - URUNTIME
+            run: sudo apt install llvm
+
           - name: Get Zotero
             run: |
               set -x
