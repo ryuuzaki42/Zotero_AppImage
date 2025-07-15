@@ -108,7 +108,7 @@ jobs:
                   --no-history --no-create-timestamp \
                   --compression zstd:level=22 -S26 -B8 \
                   --header uruntime \
-                  -i ./work_dir -o $name_prog
+                  -i ./Zotero_AppImage -o $name_prog
 
               fileName=$(ls Zotero*.AppImage)
               echo "fileName: $fileName"
