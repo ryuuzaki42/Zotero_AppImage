@@ -19,7 +19,7 @@ jobs:
           - name: Get appimagetool
             run: |
               set -x
-              cd ..
+              cd ../
               #wget -q https://github.com/AppImage/AppImageKit/releases/download/13/appimagetool-x86_64.AppImage
               #wget -q https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage
 
@@ -33,6 +33,7 @@ jobs:
           - name: Get URUNTIME
             run: |
               set -x
+              cd ../
               wget https://github.com/VHSgunzo/uruntime/releases/latest/download/uruntime-appimage-dwarfs-x86_64 -O uruntime
               chmod +x ./uruntime
               pwd; ls -lah
