@@ -13,7 +13,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@main
-    
+
     - name: Install fuse and libfuse2
       run: sudo apt install fuse libfuse2
 
