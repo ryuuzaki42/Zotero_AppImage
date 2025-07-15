@@ -110,6 +110,10 @@ jobs:
                   --header uruntime \
                   -i ./Zotero_AppImage -o $name_prog
 
+              echo "Generating zsync file..."
+              #zsyncmake *.AppImage -u *.AppImage
+              zsyncmake "$name_prog" -u "$name_prog"
+        
               fileName=$(ls Zotero*.AppImage)
               echo "fileName: $fileName"
               #mv "$fileName" "Zotero-$version-x86_64-1_JB.AppImage"
