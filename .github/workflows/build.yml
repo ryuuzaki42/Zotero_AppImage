@@ -60,22 +60,12 @@ jobs:
         echo "Zotero version: $version"
         tag_version=1
 
-        cat > AppRun << 'EOF'
-        #!/bin/bash
+        echo '#!/bin/bash
         HERE="$(dirname "$(readlink -f "${0}")")"
         EXEC="${HERE}/Zotero_linux-x86_64/zotero"
-        exec "${EXEC}"
-        EOF
-
+        exec "${EXEC}"' > AppRun
         chmod +x AppRun
         cat AppRun
-
-        #echo '[Desktop Entry]
-        #Name=Zotero
-        #Exec=Zotero_linux-x86_64/zotero
-        #Icon=Zotero
-        #Type=Application
-        #Categories=Utility' > Zotero.desktop
 
         ln -s Zotero_linux-x86_64/zotero.desktop Zotero.desktop
         chmod +x Zotero.desktop
@@ -84,7 +74,7 @@ jobs:
         cat Zotero.desktop
 
         ln -s Zotero_linux-x86_64/icons/icon128.png Zotero.png
-        ls -lah
+        pwd; ls -lah
 
         rm -v "Zotero-${version}_linux-x86_64.tar.xz"
         rm -vr .git/ .github/
