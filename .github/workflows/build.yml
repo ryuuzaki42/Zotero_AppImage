@@ -70,12 +70,14 @@ jobs:
         chmod +x AppRun
         cat AppRun
 
-        echo '[Desktop Entry]
-        Name=Zotero
-        Exec=Zotero_linux-x86_64/zotero
-        Icon=Zotero
-        Type=Application
-        Categories=Utility' > Zotero.desktop
+        #echo '[Desktop Entry]
+        #Name=Zotero
+        #Exec=Zotero_linux-x86_64/zotero
+        #Icon=Zotero
+        #Type=Application
+        #Categories=Utility' > Zotero.desktop
+
+        ln -s Zotero_linux-x86_64/zotero.desktop Zotero.desktop
         chmod +x Zotero.desktop
 
         #sed -i "s/Name=Zotero/Name=Zotero-$version/" Zotero.desktop
