@@ -117,17 +117,11 @@ jobs:
 
         fileName=$(ls Zotero*.AppImage)
         echo "fileName: $fileName"
-        #mv "$fileName" "Zotero-$version-x86_64-1_JB.AppImage"
-        #md5sum "Zotero-$version-x86_64-1_JB.AppImage" > "Zotero-$version-x86_64-1_JB.AppImage.md5"
         md5sum "$fileName" > "${fileName}.md5"
         pwd; ls -lah
 
         mv Zotero*.AppImage Zotero*.zsync Zotero*.md5 Zotero_AppImage/
         ls -lah Zotero_AppImage/
-
-    # Build - Error: Resource not accessible by integration
-    # Change Settings -> Actions -> General -> Workflow Permissions to allow read and write:
-    # https://github.com/actions/first-interaction/issues/10#issuecomment-1506118886
 
     # https://github.com/marketplace/actions/upload-to-github-release
     - uses: xresloader/upload-to-github-release@main
