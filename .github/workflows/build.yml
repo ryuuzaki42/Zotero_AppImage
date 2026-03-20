@@ -21,12 +21,9 @@ jobs:
     #  run: |
     #    set -x
     #    cd ../
-    #    #wget -q https://github.com/AppImage/AppImageKit/releases/download/13/appimagetool-x86_64.AppImage
     #    #wget -q https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage
-
     #    version_go_appimage=$(wget -q -O - https://api.github.com/repos/probonopd/go-appimage/releases | grep "\"name.*appimagetool-.*-x86_64.AppImage\"" | head -n 1 | cut -d '-' -f2)
     #    echo "version_go_appimage: $version_go_appimage"
-
     #    wget -q "https://github.com/probonopd/go-appimage/releases/download/continuous/appimagetool-$version_go_appimage-x86_64.AppImage" -O appimagetool-x86_64.AppImage
     #    chmod +x appimagetool-x86_64.AppImage
     #    pwd; ls -lah
@@ -49,7 +46,7 @@ jobs:
         echo "Zotero version: $version"
 
         file_name="Zotero-${version}_linux-x86_64.tar.xz"
-        wget "https://download.zotero.org/client/release/$version/$file_name"
+        wget -q "https://download.zotero.org/client/release/$version/$file_name"
         tar -xvf "$file_name"
 
     - name: Make AppImage
@@ -114,7 +111,6 @@ jobs:
         mv Zotero*.AppImage Zotero*.zsync Zotero*.md5 Zotero_AppImage/
         ls -lah Zotero_AppImage/
 
-    # https://github.com/marketplace/actions/upload-to-github-release
     - uses: xresloader/upload-to-github-release@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
