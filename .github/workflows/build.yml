@@ -109,7 +109,7 @@ jobs:
         pwd; ls -lah
 
         mv Zotero*.AppImage Zotero*.zsync Zotero*.md5 Zotero_AppImage/
-        mv integration/libreoffice/Zotero_LibreOffice_Integration.oxt Zotero_AppImage/
+        mv Zotero_AppImage/integration/libreoffice/Zotero_LibreOffice_Integration.oxt Zotero_AppImage/
         ls -lah Zotero_AppImage/
 
     - uses: xresloader/upload-to-github-release@v1
