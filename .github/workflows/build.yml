@@ -109,14 +109,14 @@ jobs:
         pwd; ls -lah
 
         mv Zotero*.AppImage Zotero*.zsync Zotero*.md5 Zotero_AppImage/
-        mv Zotero_AppImage/integration/libreoffice/Zotero_LibreOffice_Integration.oxt Zotero_AppImage/
+        mv Zotero_AppImage/Zotero_linux-x86_64/integration/libreoffice/Zotero_LibreOffice_Integration.oxt Zotero_AppImage/
         ls -lah Zotero_AppImage/
 
     - uses: xresloader/upload-to-github-release@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        file: "Zotero*.AppImage; Zotero*.zsync; Zotero*.md5"
+        file: "Zotero*.AppImage; Zotero*.zsync; Zotero*.md5; Zotero_LibreOffice_Integration.oxt"
         #overwrite: true
         verbose: true
         draft: false
