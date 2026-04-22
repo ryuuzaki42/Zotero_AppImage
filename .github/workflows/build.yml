@@ -31,7 +31,6 @@ jobs:
     - name: Get URUNTIME
       run: |
         set -x
-        cd ../
         wget https://github.com/VHSgunzo/uruntime/releases/latest/download/uruntime-appimage-dwarfs-x86_64 -O uruntime
         chmod +x ./uruntime
         pwd; ls -lah
@@ -44,6 +43,9 @@ jobs:
         set -x
         version=$(grep -o "Zotero:.*" README.md | cut -d ' ' -f2)
         echo "Zotero version: $version"
+
+        mkdir squashfs-root/
+        cd squashfs-root/
 
         file_name="Zotero-${version}_linux-x86_64.tar.xz"
         wget -q "https://download.zotero.org/client/release/$version/$file_name"
@@ -58,6 +60,7 @@ jobs:
         version=$(grep -o "Zotero:.*" README.md | cut -d ' ' -f2)
         echo "Zotero version: $version"
         tag_version=1
+        cd squashfs-root/
 
         echo '#!/bin/bash
         HERE="$(dirname "$(readlink -f "${0}")")"
@@ -79,7 +82,6 @@ jobs:
         pwd; ls -lah
 
         cd ../
-        mv Zotero_AppImage/ squashfs-root/
         pwd; ls -lah
 
         #ARCH=x86_64 VERSION="${version}-1_JB" ./appimagetool-x86_64.AppImage squashfs-root/
@@ -111,8 +113,10 @@ jobs:
         md5sum "$fileName" > "${fileName}.md5"
         pwd; ls -lah
 
-        mv Zotero*.AppImage Zotero*.zsync Zotero*.md5 squashfs-root/
-        mv squashfs-root/Zotero_linux-x86_64/integration/libreoffice/Zotero_LibreOffice_Integration.oxt squashfs-root/
+        #mv Zotero*.AppImage Zotero*.zsync Zotero*.md5 squashfs-root/
+        #mv squashfs-root/Zotero_linux-x86_64/integration/libreoffice/Zotero_LibreOffice_Integration.oxt squashfs-root/
+        mv squashfs-root/Zotero_linux-x86_64/integration/libreoffice/Zotero_LibreOffice_Integration.oxt .
+        pwd; ls -lah
         ls -lah squashfs-root/
 
     - uses: xresloader/upload-to-github-release@v1
