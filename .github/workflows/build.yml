@@ -105,14 +105,14 @@ jobs:
         zsyncmake *.AppImage -u *.AppImage
         #zsyncmake "$name_prog" -u "$name_prog"
 
+        mv squashfs-root/Zotero_linux-x86_64/integration/libreoffice/Zotero_LibreOffice_Integration.oxt .
+
         fileName=$(ls Zotero*.AppImage)
         echo "fileName: $fileName"
         md5sum "$fileName" > "${fileName}.md5"
         pwd; ls -lah
 
-        #mv Zotero*.AppImage Zotero*.zsync Zotero*.md5 squashfs-root/
-        #mv squashfs-root/Zotero_linux-x86_64/integration/libreoffice/Zotero_LibreOffice_Integration.oxt squashfs-root/
-        mv squashfs-root/Zotero_linux-x86_64/integration/libreoffice/Zotero_LibreOffice_Integration.oxt .
+        cat data.upd_info
         pwd; ls -lah
         ls -lah squashfs-root/
 
