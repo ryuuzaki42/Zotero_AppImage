@@ -78,9 +78,6 @@ jobs:
         ln -s Zotero_linux-x86_64/icons/icon128.png Zotero.png
         pwd; ls -lah
 
-        rm -vr .git/ .github/
-        pwd; ls -lah
-
         cd ../
         pwd; ls -lah
 
