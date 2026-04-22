@@ -49,6 +49,9 @@ jobs:
         wget -q "https://download.zotero.org/client/release/$version/$file_name"
         tar -xvf "$file_name"
 
+        rm -v "$file_name"
+        pwd; ls -lah
+
     - name: Make AppImage
       run: |
         set -x
@@ -72,14 +75,14 @@ jobs:
         ln -s Zotero_linux-x86_64/icons/icon128.png Zotero.png
         pwd; ls -lah
 
-        rm -v "Zotero-${version}_linux-x86_64.tar.xz"
         rm -vr .git/ .github/
         pwd; ls -lah
 
         cd ../
+        mv Zotero_AppImage/ squashfs-root/
         pwd; ls -lah
 
-        #ARCH=x86_64 VERSION="${version}-1_JB" ./appimagetool-x86_64.AppImage Zotero_AppImage/
+        #ARCH=x86_64 VERSION="${version}-1_JB" ./appimagetool-x86_64.AppImage squashfs-root/
 
         name_prog="Zotero-${version}-${tag_version}_JB-x86_64.AppImage"
 
@@ -97,7 +100,7 @@ jobs:
             --no-history --no-create-timestamp \
             --compression zstd:level=22 -S26 -B8 \
             --header uruntime \
-            -i ./Zotero_AppImage -o $name_prog
+            -i ./squashfs-root -o $name_prog
 
         echo "Generating zsync file..."
         zsyncmake *.AppImage -u *.AppImage
@@ -108,9 +111,9 @@ jobs:
         md5sum "$fileName" > "${fileName}.md5"
         pwd; ls -lah
 
-        mv Zotero*.AppImage Zotero*.zsync Zotero*.md5 Zotero_AppImage/
-        mv Zotero_AppImage/Zotero_linux-x86_64/integration/libreoffice/Zotero_LibreOffice_Integration.oxt Zotero_AppImage/
-        ls -lah Zotero_AppImage/
+        mv Zotero*.AppImage Zotero*.zsync Zotero*.md5 squashfs-root/
+        mv squashfs-root/Zotero_linux-x86_64/integration/libreoffice/Zotero_LibreOffice_Integration.oxt squashfs-root/
+        ls -lah squashfs-root/
 
     - uses: xresloader/upload-to-github-release@v1
       env:
