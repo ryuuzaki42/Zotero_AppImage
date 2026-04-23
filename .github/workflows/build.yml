@@ -30,8 +30,9 @@ jobs:
     - name: Get Zotero
       run: |
         set -x
+        tag=1 #1
         version=$(grep -o "Zotero:.*" README.md | cut -d ' ' -f2)
-        echo "Zotero version: $version"
+        echo "Zotero version: $version - Tag: $tag"
 
         mkdir squashfs-root/
         cd squashfs-root/
