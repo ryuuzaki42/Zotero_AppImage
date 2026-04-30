@@ -47,9 +47,11 @@ jobs:
     - name: Make AppImage
       run: |
         set -x
+        tag=1 #1
         version=$(grep -o "Zotero:.*" README.md | cut -d ' ' -f2)
-        echo "Zotero version: $version"
-        tag_version=1
+        echo "Zotero version: $version - Tag: $tag"
+        name_prog="Zotero-${version}-${tag}_JB-x86_64.AppImage"
+
         cd squashfs-root/
 
         echo '#!/bin/bash
@@ -61,8 +63,6 @@ jobs:
 
         ln -s Zotero_linux-x86_64/zotero.desktop Zotero.desktop
         chmod +x Zotero.desktop
-
-        #sed -i "s/Name=Zotero/Name=Zotero-$version/" Zotero.desktop
         cat Zotero.desktop
 
         ln -s Zotero_linux-x86_64/icons/icon128.png Zotero.png
@@ -72,8 +72,6 @@ jobs:
         pwd; ls -lah
 
         #ARCH=x86_64 VERSION="${version}-1_JB" ./appimagetool-x86_64.AppImage squashfs-root/
-
-        name_prog="Zotero-${version}-${tag_version}_JB-x86_64.AppImage"
 
         # Add update information to runtime
         UPINFO="gh-releases-zsync|$(echo "$GITHUB_REPOSITORY" | tr '/' '|')|latest|*dwarfs-$ARCH.AppImage.zsync"
@@ -92,14 +90,16 @@ jobs:
             -i ./squashfs-root -o $name_prog
 
         echo "Generating zsync file..."
-        zsyncmake *.AppImage -u *.AppImage
-        #zsyncmake "$name_prog" -u "$name_prog"
+        zsyncmake "$name_prog" -u "$name_prog"
 
-        mv squashfs-root/Zotero_linux-x86_64/integration/libreoffice/Zotero_LibreOffice_Integration.oxt .
+        # Copy of Zotero LibreOffice Integration to the release
+        cp squashfs-root/Zotero_linux-x86_64/integration/libreoffice/Zotero_LibreOffice_Integration.oxt .
 
-        fileName=$(ls Zotero*.AppImage)
-        echo "fileName: $fileName"
-        md5sum "$fileName" > "${fileName}.md5"
+        #fileName=$(ls Zotero*.AppImage)
+        #echo "fileName: $fileName"
+        #md5sum "$fileName" > "${fileName}.md5"
+
+        md5sum "$name_prog" > "${name_prog}.md5"
         pwd; ls -lah
 
     - uses: xresloader/upload-to-github-release@v1
