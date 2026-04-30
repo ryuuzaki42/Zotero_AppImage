@@ -30,9 +30,8 @@ jobs:
     - name: Get Zotero
       run: |
         set -x
-        tag=1 #1
         version=$(grep -o "Zotero:.*" README.md | cut -d ' ' -f2)
-        echo "Zotero version: $version - Tag: $tag"
+        echo "Zotero version: $version"
 
         mkdir squashfs-root/
         cd squashfs-root/
@@ -40,7 +39,6 @@ jobs:
         file_name="Zotero-${version}_linux-x86_64.tar.xz"
         wget -q "https://download.zotero.org/client/release/$version/$file_name"
         tar -xvf "$file_name"
-
         rm -v "$file_name"
         pwd; ls -lah
 
@@ -82,12 +80,9 @@ jobs:
         printf 'AI\x02' | dd of=./uruntime bs=1 count=3 seek=8 conv=notrunc
 
         echo "Generating AppImage..."
-        ./uruntime --appimage-mkdwarfs -f \
-            --set-owner 0 --set-group 0 \
-            --no-history --no-create-timestamp \
-            --compression zstd:level=22 -S26 -B8 \
-            --header uruntime \
-            -i ./squashfs-root -o $file_name
+        ./uruntime --appimage-mkdwarfs -f --set-owner 0 --set-group 0 \
+            --no-history --no-create-timestamp --compression zstd:level=22 -S26 -B8 \
+            --header uruntime -i ./squashfs-root -o $file_name
 
         echo "Generating zsync file..."
         zsyncmake "$file_name" -u "$file_name"
