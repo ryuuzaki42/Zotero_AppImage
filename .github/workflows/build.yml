@@ -86,8 +86,9 @@ jobs:
         echo "Generating zsync file..."
         zsyncmake "$file_name" -u "$file_name"
 
-        # Copy of Zotero LibreOffice Integration to the release
+        # Copy of Zotero LibreOffice Integration to be upload in the release
         cp squashfs-root/Zotero_linux-x86_64/integration/libreoffice/Zotero_LibreOffice_Integration.oxt .
+        mv Zotero_LibreOffice_Integration.oxt Zotero_LibreOffice_Integration_${version}.oxt
 
         md5sum "$file_name" > "${file_name}.md5"
         pwd; ls -lah
@@ -96,7 +97,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        file: "Zotero*.AppImage; Zotero*.zsync; Zotero*.md5; Zotero_LibreOffice_Integration.oxt"
+        file: "Zotero*.AppImage; Zotero*.zsync; Zotero*.md5; Zotero_LibreOffice_Integration*.oxt"
         #overwrite: true
         verbose: true
         draft: false
